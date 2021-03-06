@@ -47,3 +47,17 @@ body {
   color: var(--primary);
   background: var(--secondary);
 }
+
+#weeks_list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+li {
+  margin: 2px;
+  height: 2vw;
+  width: 2vw;
+  background-color: #242424;
+  border-radius: 50%;
+  list-style: none;
+}
