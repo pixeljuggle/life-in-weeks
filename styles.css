@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 
-
 * {
   margin: 0;
   padding: 0;
@@ -15,10 +14,14 @@ body {
   font-family: "Quicksand", sans-serif;
   color: var(--primary);
   background: var(--secondary);
-  margin: 30px;
+  margin: 30px 10vw;
 }
 
 h1 {
+  margin: 2px 0;
+}
+
+#headInfo {
   margin: 20px 0;
 }
 #weeks_list {
@@ -28,7 +31,7 @@ h1 {
 }
 li {
   margin: 2px;
-  width: calc(100% * (1/52) - 4px);
+  width: calc(100% * (1 / 52) - 4px);
   aspect-ratio: 1 / 1;
   background-color: var(--week);
   border-radius: 50%;

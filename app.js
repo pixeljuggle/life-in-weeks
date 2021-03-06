@@ -13,15 +13,17 @@ function weeks_between(start, end) {
 function weeksInLife(years) {
   let start = new Date(document.getElementById("dob").value);
   let startTimeStamp = Math.round(start.getTime() / 1000);
-  let weeksInLife = [{'date': start.toLocaleDateString(),
-'timeStamp': startTimeStamp}
-];
+  let weeksInLife = [
+    { date: start.toLocaleDateString(), timeStamp: startTimeStamp },
+  ];
   let nWeeks = Math.floor(years * 52);
   for (let i = 2; i <= nWeeks; i++) {
     start.setDate(start.getDate() + 7);
     let startTimeStamp = Math.round(start.getTime() / 1000);
-    let weekObject = {'date': start.toLocaleDateString(),
-    'timeStamp': startTimeStamp}
+    let weekObject = {
+      date: start.toLocaleDateString(),
+      timeStamp: startTimeStamp,
+    };
     weeksInLife.push(weekObject);
   }
   return weeksInLife;
@@ -29,12 +31,12 @@ function weeksInLife(years) {
 
 function highlightWeeks(weeksArray) {
   weeksArray.forEach((d, i) => {
-    let nWeek = new Date((d.timeStamp * 1000));
-    if (nWeek <= now ){
+    let nWeek = new Date(d.timeStamp * 1000);
+    if (nWeek <= now) {
       let element = document.getElementById(`item-${i}`);
       element.classList.add("highlight");
     }
-  })
+  });
 }
 
 document.getElementById("submit").addEventListener("click", function () {
@@ -46,9 +48,11 @@ document.getElementById("submit").addEventListener("click", function () {
 
   let allWeeks = weeksInLife(expectedYears);
 
-document.getElementById(
-  "header_label"
-).innerHTML = `you have been alive for ${weeks_between(dob, now)} weeks.`;
+  document.getElementById("headInfo").innerHTML = `
+  <p>based on a life expectancy of ${expectedYears} years</p>
+<h1>you have been alive for ${weeks_between(dob, now)} weeks.</h1>
+<h3>each row is 1 year, each dot is 1 week.</h3>
+`;
 
   allWeeks.forEach((d, i) => {
     let ol = document.getElementById("weeks_list");
