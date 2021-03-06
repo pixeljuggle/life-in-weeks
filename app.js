@@ -1,6 +1,6 @@
 const now = new Date();
-let dob = document.getElementById("dob").value;
-console.log(dob);
+const dob = new Date(document.getElementById("dob").value);
+let expectedYears = 72;
 
 function weeks_between(start, end) {
   let week = 1000 * 60 * 60 * 24 * 7;
@@ -10,35 +10,52 @@ function weeks_between(start, end) {
   return Math.floor(ms_between / week);
 }
 
-function life_weeks(start, total) {
-  let weeks_alive = [start.toLocaleDateString()];
-  let week = start;
-  for (let i = 1; i <= total; i++) {
-    week.setDate(week.getDate() + 7);
-    weeks_alive.push(week.toLocaleDateString());
+function weeksInLife(years) {
+  let start = new Date(document.getElementById("dob").value);
+  let startTimeStamp = Math.round(start.getTime() / 1000);
+  let weeksInLife = [{'date': start.toLocaleDateString(),
+'timeStamp': startTimeStamp}
+];
+  let nWeeks = Math.floor(years * 52);
+  for (let i = 2; i <= nWeeks; i++) {
+    start.setDate(start.getDate() + 7);
+    let startTimeStamp = Math.round(start.getTime() / 1000);
+    let weekObject = {'date': start.toLocaleDateString(),
+    'timeStamp': startTimeStamp}
+    weeksInLife.push(weekObject);
   }
-  return weeks_alive;
+  return weeksInLife;
+}
+
+function highlightWeeks(weeksArray) {
+  weeksArray.forEach((d, i) => {
+    let nWeek = new Date((d.timeStamp * 1000));
+    if (nWeek <= now ){
+      let element = document.getElementById(`item-${i}`);
+      element.classList.add("highlight");
+    }
+  })
 }
 
 document.getElementById("submit").addEventListener("click", function () {
+  document.getElementById("weeks_list").innerHTML = ""; // reset
   let dob = new Date(document.getElementById("dob").value);
   console.log(`selected date : ${dob}`);
-
-  const now = new Date();
   console.log(`todays date : ${now}`);
-  let n_weeks_alive = weeks_between(dob, now);
-  console.log(`weeks between : ${weeks_between(dob, now)}`);
+  console.log(`weeks alive : ${weeks_between(dob, now)}`);
 
-  let weeks_alive = life_weeks(dob, weeks_between(dob, now));
-  console.log(weeks_alive);
-  document.getElementById(
-    "header_label"
-  ).innerHTML = `you have been alive for ${n_weeks_alive} weeks.`;
-  weeks_alive.forEach((d, i) => {
+  let allWeeks = weeksInLife(expectedYears);
+
+document.getElementById(
+  "header_label"
+).innerHTML = `you have been alive for ${weeks_between(dob, now)} weeks.`;
+
+  allWeeks.forEach((d, i) => {
     let ol = document.getElementById("weeks_list");
     let li = document.createElement("li");
-    li.setAttribute("title", d);
+    li.setAttribute("title", d.date);
     li.setAttribute("id", `item-${i}`);
     ol.appendChild(li);
   });
+  highlightWeeks(allWeeks);
 });
