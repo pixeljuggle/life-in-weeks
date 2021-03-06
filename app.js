@@ -51,7 +51,7 @@ document.getElementById("submit").addEventListener("click", function () {
   document.getElementById("headInfo").innerHTML = `
   <p>based on a life expectancy of ${expectedYears} years</p>
 <h1>you have been alive for ${weeks_between(dob, now)} weeks.</h1>
-<h3>each row is 1 year, each dot is 1 week.</h3>
+<h3>each dot is 1 week, each row is 1 year.</h3>
 `;
 
   allWeeks.forEach((d, i) => {
