@@ -21,6 +21,29 @@ h1 {
   margin: 2px 0;
 }
 
+header {
+  display: flex;
+  flex-direction: row;
+}
+input {
+  height: 30px;
+  padding: 0px 10px;
+  margin: 10px 0px 0px 0px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 10px;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+button {
+  height: 30px;
+  padding: 0px 10px;
+}
+
 #headInfo {
   margin: 20px 0;
 }

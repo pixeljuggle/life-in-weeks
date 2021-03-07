@@ -1,6 +1,6 @@
 const now = new Date();
 const dob = new Date(document.getElementById("dob").value);
-let expectedYears = 72;
+let expectedYears = document.getElementById("expectedYears").value;
 
 function weeks_between(start, end) {
   let week = 1000 * 60 * 60 * 24 * 7;
@@ -42,6 +42,8 @@ function highlightWeeks(weeksArray) {
 document.getElementById("submit").addEventListener("click", function () {
   document.getElementById("weeks_list").innerHTML = ""; // reset
   let dob = new Date(document.getElementById("dob").value);
+  let expectedYears = document.getElementById("expectedYears").value;
+
   console.log(`selected date : ${dob}`);
   console.log(`todays date : ${now}`);
   console.log(`weeks alive : ${weeks_between(dob, now)}`);
@@ -49,9 +51,10 @@ document.getElementById("submit").addEventListener("click", function () {
   let allWeeks = weeksInLife(expectedYears);
 
   document.getElementById("headInfo").innerHTML = `
-  <p>based on a life expectancy of ${expectedYears} years</p>
 <h1>you have been alive for ${weeks_between(dob, now)} weeks.</h1>
 <h3>each dot is 1 week, each row is 1 year.</h3>
+<p>based on a life expectancy of ${expectedYears} years</p>
+
 `;
 
   allWeeks.forEach((d, i) => {
