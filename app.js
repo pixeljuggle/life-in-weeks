@@ -39,6 +39,16 @@ function highlightWeeks(weeksArray) {
   });
 }
 
+function highlightDate(weeksArray, date) {
+  weeksArray.forEach((d, i) => {
+    let nWeek = new Date(d.timeStamp * 1000);
+    if (nWeek <= now) {
+      let element = document.getElementById(`item-${i}`);
+      element.classList.add("highlight");
+    }
+  });
+}
+
 document.getElementById("submit").addEventListener("click", function () {
   document.getElementById("weeks_list").innerHTML = ""; // reset
   let dob = new Date(document.getElementById("dob").value);
@@ -51,18 +61,31 @@ document.getElementById("submit").addEventListener("click", function () {
   let allWeeks = weeksInLife(expectedYears);
 
   document.getElementById("headInfo").innerHTML = `
-<h1>you have been alive for ${weeks_between(dob, now)} weeks.</h1>
-<h3>each dot is 1 week, each row is 1 year.</h3>
+<h2>you have been alive for ${weeks_between(dob, now)} weeks. each dot is 1 week, each row is 1 year.</h2>
 <p>based on a life expectancy of ${expectedYears} years</p>
 
 `;
-
+let y = 0;
   allWeeks.forEach((d, i) => {
     let ol = document.getElementById("weeks_list");
     let li = document.createElement("li");
     li.setAttribute("title", d.date);
     li.setAttribute("id", `item-${i}`);
     ol.appendChild(li);
+
+    // if ( i % 52 == 0 ){
+    //   let olY = document.getElementById("yAxis");
+    //   let liY = document.createElement("li");
+    //   liY.setAttribute("title", d.date);
+    //   liY.setAttribute("id", `Y-${y}`);
+    //   liY.innerHTML=y;
+    //   olY.appendChild(liY);
+    //   y++;
+    // }
+
   });
+
+
+
   highlightWeeks(allWeeks);
 });

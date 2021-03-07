@@ -46,7 +46,10 @@ button {
 
 #headInfo {
   margin: 20px 0;
+  padding: 15px;
+  border-left: 4px solid var(--accent);
 }
+
 #weeks_list {
   display: flex;
   flex-wrap: wrap;
@@ -68,6 +71,14 @@ li {
 
 #item-0 {
   background-color: #f542b9;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+#yAxis {
 }
 
 @media only screen and (max-width: 1200px) {
