@@ -17,7 +17,9 @@ function weeksInLife(years) {
     { date: start.toLocaleDateString(), timeStamp: startTimeStamp },
   ];
   let nWeeks = Math.floor(years * 52);
+  let ageY = 0;
   for (let i = 2; i <= nWeeks; i++) {
+
     start.setDate(start.getDate() + 7);
     let startTimeStamp = Math.round(start.getTime() / 1000);
     let weekObject = {
