@@ -42,7 +42,7 @@ describe("weeksBetween", () => {
   });
 });
 
-// array of weeks in life expectancy. pass it your date of birth and life expectancy, return an array of objects containung a date & timsstamp, the dates are week starts from birth to death.
+// array of weeks in life expectancy. pass it your date of birth and life expectancy, return an array of objects containung a date & timestamp, the dates are week starts from birth to death.
 describe("weeksForYears", () => {
   it("returns an array of dates, weeks in X years", () => {
     const result = weeksForYears("1986/10/15", 1);
