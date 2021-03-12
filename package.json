@@ -1,0 +1,9 @@
+{
+  "name": "life-in-weeks",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}
