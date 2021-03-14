@@ -9,8 +9,15 @@
 </head>
 
 <body>
-  <h1>Your Life in Weeks</h1>
-  <header>
+  <div class="logo-container">
+    <svg width="54" height="31" viewBox="0 0 54 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M23.9576 2.50865C21.5255 0.922088 18.6204 0 15.5 0C6.93959 0 0 6.93959 0 15.5C0 24.0604 6.93959 31 15.5 31C18.6204 31 21.5255 30.0779 23.9576 28.4914C20.8744 25.0425 19 20.4901 19 15.5C19 10.5099 20.8744 5.95753 23.9576 2.50865Z" fill="#F542B9"/>
+      <circle cx="38.5" cy="15.5" r="15.5" fill="#4C00FF"/>
+      </svg>
+    <h1>Your Life in Weeks</h1>
+  </div>
+
+  <header id="header-form" class="">
     <div class="inputs">
       <label for="dob"><h5>your date of birth:</h5></label>
       <input type="date" id="dob" name="date-of-birth" value="2018-07-22" min="1900-01-01">
@@ -19,6 +26,11 @@
     <div class="inputs">
       <label for="expectedYears"><h5>life expectancy:</h5></label>
       <input type="number" id="expectedYears" name="expectedYears" min="10" max="100" value="72">
+    </div>
+
+    <div class="inputs">
+      <label for="doi"><h5>date of interest:</h5></label>
+      <input type="date" id="doi" name="date-of-interest" value="2018-07-22" min="1900-01-01">
     </div>
 
     <div class="inputs">

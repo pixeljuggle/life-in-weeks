@@ -56,8 +56,28 @@ function liBlobHighlight(date, item) {
   element.classList.add("highlight");
 }
 
+function dateOfInterest (date, allWeeks){
+
+  let dateOfInterest = new Date (date);
+  let doiStart = Math.round(dateOfInterest.getTime() / 1000);
+  let doiEnd = doiStart + (60*60*24*7);
+
+  console.log(dateOfInterest)
+  console.log(doiStart)
+  console.log(doiEnd)
+
+  console.log(allWeeks.findIndex( (v,i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd))
+
+  if ( (allWeeks.findIndex( (v,i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd)) > 1){
+    let doi = document.getElementById(`item-${allWeeks.findIndex( (v,i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd) -1 }`);
+    doi.classList.add("date-of-interest");
+    doi.setAttribute("title", `Date Of Interest\n${dateOfInterest.toLocaleDateString()}`);
+  }
+}
+
 document.getElementById("submit").addEventListener("click", function () {
   document.getElementById("weeks_list").innerHTML = ""; // reset
+  document.getElementById("header-form").classList.add("hide");
   const now = new Date();
   const dob = new Date(document.getElementById("dob").value);
   let expectedYears = document.getElementById("expectedYears").value;
@@ -70,14 +90,18 @@ document.getElementById("submit").addEventListener("click", function () {
 <h2>you have been alive for ${weeksBetween(
     dob,
     now
-  )} weeks. each dot is 1 week, each row is 1 year.</h2>
+  )} weeks.</h2>
+  <h3> each dot is 1 week, each row is 1 year.</h3>
 <p>based on a life expectancy of ${expectedYears} years</p>
+<button onClick="window.location.reload();">Reset</button>
 `;
 
   let allWeeks = weeksForYears(dob, expectedYears);
   allWeeks.forEach((d, i) => {
     liBlobsHTML("weeks_list", d.date, i);
   });
+  
+  beforeToday(allWeeks, liBlobHighlight); 
 
-  beforeToday(allWeeks, liBlobHighlight);
+  dateOfInterest(new Date(document.getElementById("doi").value),allWeeks);
 });
