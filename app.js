@@ -10,14 +10,26 @@ function weeksBetween(start, end) {
 
 function weeksForYears(start, years) {
   let d = new Date(start);
+  let dY = d.getFullYear();
+  let count = 0;
   let dTs = Math.round(d.getTime() / 1000);
   let arr = [{ date: d.toLocaleDateString(), timeStamp: dTs }];
 
   for (let i = 2; i <= yearsToWeeks(years); i++) {
-    d.setDate(d.getDate() + 7);
-    dTs = Math.round(d.getTime() / 1000);
-    let obj = { date: d.toLocaleDateString(), timeStamp: dTs };
-    arr.push(obj);
+    if ((i - 1) % 52 === 0) {
+      dY++;
+      d.setDate(start.getDate());
+      d.setFullYear(dY);
+
+      dTs = Math.round(d.getTime() / 1000);
+      let obj = { date: d.toLocaleDateString(), timeStamp: dTs };
+      arr.push(obj);
+    } else {
+      d.setDate(d.getDate() + 7);
+      dTs = Math.round(d.getTime() / 1000);
+      let obj = { date: d.toLocaleDateString(), timeStamp: dTs };
+      arr.push(obj);
+    }
   }
   return arr;
 }
@@ -68,5 +80,4 @@ document.getElementById("submit").addEventListener("click", function () {
   });
 
   beforeToday(allWeeks, liBlobHighlight);
-
 });
