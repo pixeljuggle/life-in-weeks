@@ -56,52 +56,133 @@ function liBlobHighlight(date, item) {
   element.classList.add("highlight");
 }
 
-function dateOfInterest (date, allWeeks){
-
-  let dateOfInterest = new Date (date);
+function dateOfInterest(date, label, allWeeks) {
+  let dateOfInterest = new Date(date);
   let doiStart = Math.round(dateOfInterest.getTime() / 1000);
-  let doiEnd = doiStart + (60*60*24*7);
+  let doiEnd = doiStart + 60 * 60 * 24 * 7;
 
-  console.log(dateOfInterest)
-  console.log(doiStart)
-  console.log(doiEnd)
-
-  console.log(allWeeks.findIndex( (v,i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd))
-
-  if ( (allWeeks.findIndex( (v,i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd)) > 1){
-    let doi = document.getElementById(`item-${allWeeks.findIndex( (v,i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd) -1 }`);
+  if (
+    allWeeks.findIndex(
+      (v, i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd
+    ) > 1
+  ) {
+    let doi = document.getElementById(
+      `item-${
+        allWeeks.findIndex(
+          (v, i) => v.timeStamp >= doiStart && v.timeStamp < doiEnd
+        ) - 1
+      }`
+    );
     doi.classList.add("date-of-interest");
-    doi.setAttribute("title", `Date Of Interest\n${dateOfInterest.toLocaleDateString()}`);
+    doi.setAttribute(
+      "title",
+      `${label}\n${dateOfInterest.toLocaleDateString()}`
+    );
   }
 }
 
-document.getElementById("submit").addEventListener("click", function () {
+let doiCount = 0;
+function addDOi() {
+  doiCount++;
+  var div = document.createElement("div");
+  div.innerHTML = `
+  <div class="doi-instance">
+  <div class="inputs">
+    <label for="doi-label-${doiCount}">
+      <h5>label ${doiCount}</h5>
+    </label>
+    <input type="text" id="doi-label-${doiCount}" name="doi-label-${doiCount}">
+  </div>
+
+  <div class="inputs">
+    <label for="doi-date-${doiCount}">
+      <h5>date ${doiCount}</h5>
+    </label>
+    <input type="date" id="doi-date-${doiCount}" name="doi-date-${doiCount}">
+  </div>
+</div>
+`;
+  document.getElementById("date-of-interest-container").appendChild(div);
+}
+
+document.getElementById("add-doi").addEventListener("click", function () {
+  addDOi();
+});
+
+function loopDOi(dob, expectedYears) {
+  for (let i = 0; doiCount > i; i++) {
+    let doiDate = new Date(document.getElementById(`doi-date-${i + 1}`).value);
+    let doiLabel = document.getElementById(`doi-label-${i + 1}`).value;
+
+    let allWeeks = weeksForYears(dob, expectedYears);
+    dateOfInterest(new Date(doiDate), doiLabel, allWeeks);
+  }
+}
+
+function populateInitial(dob) {
   document.getElementById("weeks_list").innerHTML = ""; // reset
-  document.getElementById("header-form").classList.add("hide");
   const now = new Date();
-  const dob = new Date(document.getElementById("dob").value);
+  // const dob = new Date(document.getElementById("dob").value);
   let expectedYears = document.getElementById("expectedYears").value;
 
-  console.log(`selected date : ${dob}`);
-  console.log(`todays date : ${now}`);
-  console.log(`weeks alive : ${weeksBetween(dob, now)}`);
-
-  document.getElementById("headInfo").innerHTML = `
-<h2>you have been alive for ${weeksBetween(
-    dob,
-    now
-  )} weeks.</h2>
-  <h3> each dot is 1 week, each row is 1 year.</h3>
-<p>based on a life expectancy of ${expectedYears} years</p>
-<button onClick="window.location.reload();">Reset</button>
-`;
+  document.getElementById("opt-dob").value = document.getElementById(
+    "dob"
+  ).value;
 
   let allWeeks = weeksForYears(dob, expectedYears);
   allWeeks.forEach((d, i) => {
     liBlobsHTML("weeks_list", d.date, i);
   });
-  
-  beforeToday(allWeeks, liBlobHighlight); 
 
-  dateOfInterest(new Date(document.getElementById("doi").value),allWeeks);
+  beforeToday(allWeeks, liBlobHighlight);
+
+  // dateOfInterest(new Date(document.getElementById("doi").value),allWeeks);
+}
+
+function stats() {
+  const dob = new Date(document.getElementById("opt-dob").value);
+  const now = new Date();
+  let expectedYears = document.getElementById("expectedYears").value;
+  const statsElement = document.getElementById("stats");
+  const weeksLived = weeksBetween(dob, now);
+  document.getElementById("stat-numbers").innerHTML = `
+  <h1>${Math.round((100 / (expectedYears * 52)) * weeksLived)} % complete</h1>
+  <h3>you have completed ${weeksLived} weeks out of ${expectedYears * 52}</h3>
+`;
+  statsElement.classList.remove("hide");
+
+  document.getElementById("info").classList.remove("hide");
+  document.getElementById("stats").classList.remove("transparent");
+}
+
+document.getElementById("submit").addEventListener("click", function () {
+  const dob = new Date(document.getElementById("dob").value);
+  populateInitial(dob);
+
+  stats();
+
+  document.getElementById("start-form").classList.add("hide");
+});
+
+document.getElementById("apply").addEventListener("click", function () {
+  document.getElementById("dob").value = document.getElementById(
+    "opt-dob"
+  ).value;
+  const dob = new Date(document.getElementById("opt-dob").value);
+  const now = new Date();
+  let expectedYears = document.getElementById("expectedYears").value;
+  populateInitial(dob);
+  loopDOi(dob, expectedYears);
+  stats();
+  document.getElementById("options").classList.add("hide");
+});
+
+document.getElementById("stat-menu").addEventListener("click", function () {
+  document.getElementById("options").classList.remove("hide");
+  document.getElementById("stats").classList.add("hide");
+});
+
+document.getElementById("close").addEventListener("click", function () {
+  document.getElementById("options").classList.add("hide");
+  document.getElementById("stats").classList.remove("hide");
 });
