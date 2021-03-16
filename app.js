@@ -139,14 +139,51 @@ function populateInitial(dob) {
   // dateOfInterest(new Date(document.getElementById("doi").value),allWeeks);
 }
 
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+}
+
 function stats() {
+  const awards = [["bambino","nipper","cherub","tiny","lamb","anklebiter"],["cub","brat","kid","sprout","whippersnapper","beginner","gremlin"],["trouble","youngster","budding","growing","junior","student"],["fledging","apprentice","lively","sharp","vigorous","eager","novice","student"],["proficient","hotshot","powerhouse","adept",""],["master","pro","specialist","qualified","savvy",""],["wizard","oldpro","expert","accomplished","experienced","seasoned"],["wise","refined","tired","grizzled"],["veteran","ancient","fossil","relic"]]
+
+  //  Math.floor(Math.random() * Math.floor(max));
+
   const dob = new Date(document.getElementById("opt-dob").value);
   const now = new Date();
   let expectedYears = document.getElementById("expectedYears").value;
   const statsElement = document.getElementById("stats");
   const weeksLived = weeksBetween(dob, now);
+  let award = "Your Life in Weeks";
+  if ( (weeksLived / 52) < 6 ){
+    award = toTitleCase(awards[0][Math.floor(Math.random() * Math.floor(awards[0].length))]);
+  } else if ( (weeksLived / 52) < 11 ){
+    award = toTitleCase(awards[1][Math.floor(Math.random() * Math.floor(awards[1].length))]);
+  } else if ( (weeksLived / 52) < 17 ){
+    award = toTitleCase(awards[2][Math.floor(Math.random() * Math.floor(awards[2].length))]);
+  } else if ( (weeksLived / 52) < 26 ){
+    award = toTitleCase(awards[3][Math.floor(Math.random() * Math.floor(awards[3].length))]);
+  } else if ( (weeksLived / 52) < 36 ){
+    award = toTitleCase(awards[4][Math.floor(Math.random() * Math.floor(awards[4].length))]);
+  } else if ( (weeksLived / 52) < 47 ){
+    award = toTitleCase(awards[5][Math.floor(Math.random() * Math.floor(awards[5].length))]);
+  } else if ( (weeksLived / 52) < 56 ){
+    award = toTitleCase(awards[6][Math.floor(Math.random() * Math.floor(awards[6].length))]);
+  }else if ( (weeksLived / 52) < 66 ){
+    award = toTitleCase(awards[7][Math.floor(Math.random() * Math.floor(awards[7].length))]);
+  }else if ( (weeksLived / 52) >= 66 ){
+    award = toTitleCase(awards[8][Math.floor(Math.random() * Math.floor(awards[8].length))]);
+  }
+  
+  document.title=award;
+  document.getElementById("logo-text").innerHTML = `${award}`
+
   document.getElementById("stat-numbers").innerHTML = `
-  <h1>${Math.round((100 / (expectedYears * 52)) * weeksLived)} % complete</h1>
+  <\h1><h1>${Math.round((100 / (expectedYears * 52)) * weeksLived)} % complete</h1>
   <h3>you have completed ${weeksLived} weeks out of ${expectedYears * 52}</h3>
 `;
   statsElement.classList.remove("hide");
@@ -186,3 +223,4 @@ document.getElementById("close").addEventListener("click", function () {
   document.getElementById("options").classList.add("hide");
   document.getElementById("stats").classList.remove("hide");
 });
+
