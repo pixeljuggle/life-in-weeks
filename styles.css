@@ -224,7 +224,8 @@ button:hover {
 li {
   margin: 2px;
   width: calc(100% * (1 / 52) - 4px);
-  aspect-ratio: 1 / 1;
+  height: calc(60vw * (1 / 52) - 4px);
+  /* aspect-ratio: 1 / 1; */
   background-color: var(--week);
   border-radius: 50%;
   list-style: none;
@@ -259,6 +260,8 @@ li {
   li {
     margin: 1px;
     width: calc(100% * (1 / 52) - 2px);
+    height: calc(80vw * (1 / 52) - 2px);
+
   }
 }
 
@@ -270,6 +273,8 @@ li {
   li {
     margin: 1px;
     width: calc(100% * (1 / 52) - 2px);
+    height: calc(90vw * (1 / 52) - 2px);
+
   }
 }
 
