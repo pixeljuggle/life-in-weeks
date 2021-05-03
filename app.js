@@ -13,7 +13,7 @@ function weeksForYears(start, years) {
   let dY = d.getFullYear();
   let count = 0;
   let dTs = Math.round(d.getTime() / 1000);
-  let arr = [{ date: d.toLocaleDateString(), timeStamp: dTs }];
+  let arr = [{ yo: 0, date: d.toLocaleDateString(), timeStamp: dTs }];
 
   for (let i = 2; i <= yearsToWeeks(years); i++) {
     if ((i - 1) % 52 === 0) {
@@ -22,15 +22,16 @@ function weeksForYears(start, years) {
       d.setFullYear(dY);
 
       dTs = Math.round(d.getTime() / 1000);
-      let obj = { date: d.toLocaleDateString(), timeStamp: dTs };
+      let obj = { yo: parseInt((i - 1)/52), date: d.toLocaleDateString(), timeStamp: dTs };
       arr.push(obj);
     } else {
       d.setDate(d.getDate() + 7);
       dTs = Math.round(d.getTime() / 1000);
-      let obj = { date: d.toLocaleDateString(), timeStamp: dTs };
+      let obj = { yo: parseInt((i - 1)/52), date: d.toLocaleDateString(), timeStamp: dTs };
       arr.push(obj);
     }
   }
+  console.log(arr);
   return arr;
 }
 
@@ -43,10 +44,13 @@ function beforeToday(array, callback) {
   });
 }
 
-function liBlobsHTML(container, date, index) {
+function liBlobsHTML(container, date, index, yearsOld) {
   let ol = document.getElementById(container);
   let li = document.createElement("li");
-  li.setAttribute("title", date);
+  li.setAttribute(
+    "title",
+    `${yearsOld} years old.\n${date}`
+  );
   li.setAttribute("id", `item-${index}`);
   ol.appendChild(li);
 }
@@ -131,7 +135,7 @@ function populateInitial(dob) {
 
   let allWeeks = weeksForYears(dob, expectedYears);
   allWeeks.forEach((d, i) => {
-    liBlobsHTML("weeks_list", d.date, i);
+    liBlobsHTML("weeks_list", d.date, i, d.yo);
   });
 
   beforeToday(allWeeks, liBlobHighlight);
